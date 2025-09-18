@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useApp } from "../contexts/AppContext";
 import SearchIcon from "../assets/search.svg";
 
 const cardsData = [
@@ -26,6 +27,9 @@ const cardsData = [
 function Dashboard() {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  
+  // ADD THE GLOBAL STATE VARIABLES
+  const { loading, stats } = useApp();
 
   useEffect(() => {
     const mapNumberRange = (n, a, b, c, d) =>
@@ -88,9 +92,108 @@ function Dashboard() {
 
   return (
     <div style={{ padding: "2rem", marginLeft: "5rem" }}>
+      {/* Add floating animation CSS */}
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+      `}</style>
+
       <h1 style={{ fontSize: "2rem", fontWeight: "bold", marginBottom: "1rem" }}>
         Dashboard
       </h1>
+
+      {/* Floating Badge Stats - REPLACE THE GREEN TEST BOX */}
+      <div style={{ position: "relative", marginBottom: "3rem", minHeight: "80px" }}>
+        <div style={{
+          position: "absolute",
+          top: "-10px",
+          right: "20px",
+          background: "linear-gradient(135deg, #10b981, #059669)",
+          color: "white",
+          padding: "0.5rem 1rem",
+          borderRadius: "20px",
+          fontSize: "0.875rem",
+          fontWeight: "bold",
+          boxShadow: "0 4px 12px rgba(16, 185, 129, 0.3)",
+          zIndex: 10,
+          animation: "float 3s ease-in-out infinite",
+          cursor: "pointer",
+          transition: "transform 0.2s ease"
+        }}
+        onMouseEnter={(e) => e.target.style.transform = "scale(1.05)"}
+        onMouseLeave={(e) => e.target.style.transform = "scale(1)"}
+        >
+          📚 {stats.totalCourses} Courses
+        </div>
+        
+        <div style={{
+          position: "absolute",
+          top: "30px",
+          right: "150px",
+          background: "linear-gradient(135deg, #f59e0b, #d97706)",
+          color: "white",
+          padding: "0.5rem 1rem",
+          borderRadius: "20px",
+          fontSize: "0.875rem",
+          fontWeight: "bold",
+          boxShadow: "0 4px 12px rgba(245, 158, 11, 0.3)",
+          zIndex: 10,
+          animation: "float 3s ease-in-out infinite 1s",
+          cursor: "pointer",
+          transition: "transform 0.2s ease"
+        }}
+        onMouseEnter={(e) => e.target.style.transform = "scale(1.05)"}
+        onMouseLeave={(e) => e.target.style.transform = "scale(1)"}
+        >
+          📝 {stats.pendingAssignments} Tasks
+        </div>
+
+        <div style={{
+          position: "absolute",
+          top: "60px",
+          right: "280px",
+          background: "linear-gradient(135deg, #8b5cf6, #7c3aed)",
+          color: "white",
+          padding: "0.5rem 1rem",
+          borderRadius: "20px",
+          fontSize: "0.875rem",
+          fontWeight: "bold",
+          boxShadow: "0 4px 12px rgba(139, 92, 246, 0.3)",
+          zIndex: 10,
+          animation: "float 3s ease-in-out infinite 2s",
+          cursor: "pointer",
+          transition: "transform 0.2s ease"
+        }}
+        onMouseEnter={(e) => e.target.style.transform = "scale(1.05)"}
+        onMouseLeave={(e) => e.target.style.transform = "scale(1)"}
+        >
+          🎯 {stats.averageGrade}% Avg Grade
+        </div>
+
+        <div style={{
+          position: "absolute",
+          top: "10px",
+          right: "400px",
+          background: loading ? "linear-gradient(135deg, #6b7280, #4b5563)" : "linear-gradient(135deg, #059669, #047857)",
+          color: "white",
+          padding: "0.5rem 1rem",
+          borderRadius: "20px",
+          fontSize: "0.875rem",
+          fontWeight: "bold",
+          boxShadow: `0 4px 12px rgba(${loading ? '107, 114, 128' : '5, 150, 105'}, 0.3)`,
+          zIndex: 10,
+          animation: "float 3s ease-in-out infinite 0.5s",
+          cursor: "pointer",
+          transition: "all 0.3s ease"
+        }}
+        onMouseEnter={(e) => e.target.style.transform = "scale(1.05)"}
+        onMouseLeave={(e) => e.target.style.transform = "scale(1)"}
+        >
+          {loading ? "⏳ Loading..." : "✅ Ready"}
+        </div>
+      </div>
 
       {/* Search Bar */}
       <div style={{ position: "relative", width: "300px", marginBottom: "1.5rem" }}>
@@ -100,7 +203,7 @@ function Dashboard() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           style={{
-            padding: "0.5rem 1rem 0.5rem 2.5rem", // leave space for SVG
+            padding: "0.5rem 1rem 0.5rem 2.5rem",
             width: "100%",
             borderRadius: "0.5rem",
             border: "1px solid #ccc",

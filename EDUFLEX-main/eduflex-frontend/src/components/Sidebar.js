@@ -2,13 +2,15 @@ import { Link } from "react-router-dom";
 import { FaTachometerAlt, FaCogs, FaUser, FaBook, FaChalkboardTeacher } from "react-icons/fa";
 
 export default function Sidebar() {
-  const menuItems = [
-    { name: "Dashboard", path: "/dashboard", icon: <FaTachometerAlt /> },
-    { name: "System Setup", path: "/system-setup", icon: <FaCogs /> },
-    { name: "User", path: "/user", icon: <FaUser /> },
-    { name: "Courses", path: "/courses", icon: <FaBook /> },
-    { name: "Faculty", path: "/faculty", icon: <FaChalkboardTeacher /> },
-  ];
+  // Update your Sidebar.js menuItems to match your actual routes:
+const menuItems = [
+  { name: "Dashboard", path: "/dashboard", icon: <FaTachometerAlt /> },
+  { name: "User", path: "/user", icon: <FaUser /> },
+  { name: "Courses", path: "/courses", icon: <FaBook /> },
+  { name: "Assignments", path: "/assignments", icon: <FaCogs /> }, // Changed from System Setup
+  { name: "Grades", path: "/grades", icon: <FaChalkboardTeacher /> }, // Changed from Faculty
+];
+
 
   return (
     <div className="fixed top-0 left-0 h-screen w-16 bg-gradient-to-b from-green-500 to-green-700 text-white flex flex-col p-4 overflow-hidden group hover:w-64 transition-all duration-500 shadow-xl rounded-r-2xl z-50">
